@@ -1,0 +1,16 @@
+# Cirrus CI: macOS builds for open-source repos, no GitHub Actions minutes.
+# Enable at https://cirrus-ci.com by signing in with GitHub and adding this repo.
+task:
+  name: xnu-$CIRRUS_BRANCH
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-sonoma-xcode:15.0
+  env:
+    MACHINE_CONFIG: GUACAMOLE
+    KERNEL_CONFIG: DEVELOPMENT
+    MACOS_VERSION: "13.5"
+  timeout_in: 120m
+  build_script: bash .github/ci-build.sh
+  kernel_artifacts:
+    path: "out/kernel.*"
+    fingerprint_script: echo "$CIRRUS_BUILD_ID"
+    forget: false
